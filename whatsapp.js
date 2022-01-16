@@ -1,5 +1,6 @@
 var express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 var app = express();
 var latestTweets = require('latest-tweets');
@@ -12,7 +13,7 @@ app.get( '/health', (req, res) => {
     res.send( "healthy" );
   });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
