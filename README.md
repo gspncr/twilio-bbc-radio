@@ -22,7 +22,7 @@ I have deployed this to Heroku.
 
 Will automatically attach to the port for a Heroku or AWS Elastic Beanstalk instance or alternatively will be on port `:3000`
 
-## Twilio connection
+## Twilio connection 
 
 I recommend using WhatsApp for the quick buttons. Nothing will stop this working attached to an SMS channel, you just won't benefit with the quick buttons.
 
