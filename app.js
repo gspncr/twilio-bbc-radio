@@ -1,9 +1,9 @@
 var express = require('express');
 const cors = require('cors');
 const path = require('path');
+var axios = require('axios');
 
 var app = express();
-var latestTweets = require('latest-tweets');
 const res = require('express/lib/response');
 
 app.use(cors(), express.json());
@@ -16,46 +16,59 @@ app.get( '/health', (req, res) => {
 const port = process.env.PORT || 3000
 
 app.all('/radio1', async (req, res) => {
-    latestTweets("bbcr1musicbot", function (err, tweets) {
-        var song = tweets[0]['content'];
-        var songTitle = song.slice(12);
-        songTitle = songTitle.split('#')[0]
-        res.json({"song":songTitle})
-      })
+  
+  var config = {
+    method: 'get',
+    url: 'https://rms.api.bbc.co.uk/v2/services/bbc_radio_one/segments/latest?limit=1'
+  };
+  
+  axios(config)
+  .then(function (response) {
+    var song = response.data;
+    var songTitle = song['data'][0]['titles']['secondary']
+    var songArtist = song['data'][0]['titles']['primary']
+    res.json({"songTitle":songTitle, "songArtist":songArtist});
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 });
 
 app.all('/radio2', (req, res) => {
-    latestTweets("bbcr2musicbot", function (err, tweets) {
-        var song = tweets[1]['content'];
-        var songTitle = song.slice(12);
-        res.json({"song":songTitle})
-      })
+  var config = {
+    method: 'get',
+    url: 'https://rms.api.bbc.co.uk/v2/services/bbc_radio_two/segments/latest?limit=1'
+  };
+  
+  axios(config)
+  .then(function (response) {
+    var song = response.data;
+    var songTitle = song['data'][0]['titles']['secondary']
+    var songArtist = song['data'][0]['titles']['primary']
+    res.json({"songTitle":songTitle, "songArtist":songArtist});
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 })
 
 app.all('/radio3', (req, res) => {
-    latestTweets("bbcr3musicbot", function (err, tweets) {
-        var song = tweets[1]['content'];
-        var songTitle = song.slice(12);
-        songTitle = songTitle.split('#')[0]
-        res.json({"song":songTitle})
-      })
-})
-
-app.all('/radio6', (req, res) => {
-    latestTweets("BBC6MusicBot", function (err, tweets) {
-        var song = tweets[0]['content'];
-        var songTitle = song.slice(12);
-        res.json({"song":songTitle})
-      })
-})
-
-app.all('/an', (req, res) => {
-    latestTweets("BBCANMusicBot", function (err, tweets) {
-        var song = tweets[0]['content'];
-        var songTitle = song.slice(12);
-        songTitle = songTitle.split('#')[0]
-        res.json({"song":songTitle})
-      })
+  var config = {
+    method: 'get',
+    url: 'https://rms.api.bbc.co.uk/v2/services/bbc_radio_three/segments/latest?limit=1'
+  };
+  
+  axios(config)
+  .then(function (response) {
+    var song = response.data;
+    var songTitle = song['data'][0]['titles']['secondary']
+    var songArtist = song['data'][0]['titles']['primary']
+    res.json({"songTitle":songTitle, "songArtist":songArtist});
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 })
 
 const server = app.listen(port, function() {
